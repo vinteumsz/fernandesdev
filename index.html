@@ -273,22 +273,134 @@ section{padding:96px 0;position:relative}
 }
 
 /* ---------- contato ---------- */
-.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:40px}
-.ct{
-  padding:26px;border-radius:var(--r);background:var(--ink-2);border:1px solid var(--line);
-  transition:transform .25s ease,border-color .25s ease;
+.contact-shell{
+  position:relative;overflow:hidden;
+  border:1px solid var(--line);border-radius:26px;
+  background:
+    radial-gradient(120% 90% at 50% 0%,rgba(168,123,255,.14),transparent 60%),
+    var(--ink-2);
+  padding:clamp(34px,6vw,72px) clamp(24px,5vw,64px);
 }
-.ct:hover{transform:translateY(-4px);border-color:rgba(168,123,255,.5)}
-.ct small{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.1em;display:block;margin-bottom:10px}
-.ct b{font-family:var(--display);font-size:1.1rem;font-weight:600;letter-spacing:-.02em;word-break:break-word}
-.copybar{display:flex;align-items:center;gap:12px;margin-top:22px;font-family:var(--mono);font-size:.78rem;color:var(--muted);flex-wrap:wrap}
-.copybtn{background:var(--ink-2);border:1px solid var(--line);border-radius:8px;color:var(--text);
-  font-family:var(--mono);font-size:.76rem;padding:8px 14px;cursor:pointer;transition:border-color .2s ease,color .2s ease}
-.copybtn:hover{border-color:var(--violet);color:var(--violet)}
+.contact-shell::before{
+  content:"";position:absolute;top:0;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--violet),transparent);
+}
+.contact-shell .h2{margin-bottom:16px}
+.contact-shell .lead{margin-bottom:38px}
+
+/* e-mail em destaque */
+.mail-big{
+  display:inline-block;position:relative;
+  font-family:var(--display);font-weight:600;letter-spacing:-.03em;
+  font-size:clamp(1.35rem,4.6vw,2.9rem);line-height:1.15;
+  word-break:break-word;
+}
+.mail-big::after{
+  content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;
+  background:linear-gradient(90deg,var(--iris),var(--violet));
+  transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.2,.7,.2,1);
+}
+.mail-big:hover::after{transform:scaleX(1)}
+.mail-big:hover{color:var(--violet-soft)}
+
+.contact-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:44px}
+.btn svg{width:17px;height:17px;flex:none}
+.btn-wa{background:var(--violet);color:#0C0A14;border-color:var(--violet);font-weight:700}
+.btn-wa:hover{transform:translateY(-2px);background:var(--violet-soft);border-color:var(--violet-soft)}
+
+.copied-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:.76rem;color:var(--violet);
+  opacity:0;transform:translateY(4px);transition:opacity .25s ease,transform .25s ease;
+  align-self:center;
+}
+.copied-tag.on{opacity:1;transform:none}
+
+/* redes */
+.socials{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;
+  margin-top:44px;padding-top:34px;border-top:1px solid var(--line);
+}
+.social{
+  display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:12px;
+  border:1px solid var(--line);background:var(--ink-3);
+  transition:border-color .25s ease,transform .25s ease,background .25s ease;
+}
+.social:hover{border-color:rgba(168,123,255,.5);transform:translateY(-3px);background:var(--ink-2)}
+.social svg{width:20px;height:20px;flex:none;color:var(--violet)}
+.social .txt{display:flex;flex-direction:column;line-height:1.35;min-width:0}
+.social .txt b{font-size:.95rem;font-weight:700}
+.social .txt span{font-family:var(--mono);font-size:.73rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.social .arw{margin-left:auto;font-family:var(--mono);font-size:.8rem;color:var(--muted);transition:transform .25s ease,color .25s ease}
+.social:hover .arw{transform:translate(3px,-3px);color:var(--violet)}
+
+@media(max-width:600px){
+  .contact-actions .btn{flex:1 1 100%}
+}
 
 footer{border-top:1px solid var(--line);padding:30px 0;margin-top:40px}
 .foot-inner{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+
+
+/* ---------- preloader dev ---------- */
+body.booting{overflow:hidden}
+#boot{
+  position:fixed;inset:0;z-index:999;background:var(--ink);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  transition:opacity .55s ease,visibility .55s ease;
+}
+#boot.done{opacity:0;visibility:hidden}
+.boot-term{width:min(540px,100%);background:var(--ink-2);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;box-shadow:0 40px 90px -50px #000}
+.boot-body{padding:20px 18px;font-family:var(--mono);font-size:.78rem;line-height:1.9;min-height:196px}
+.boot-line{opacity:0;transform:translateY(5px);animation:bootin .28s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes bootin{to{opacity:1;transform:none}}
+.boot-line .p{color:var(--iris)}
+.boot-line .ok{color:var(--violet)}
+.boot-line .dim{color:#6B6187}
+.boot-bar{height:3px;background:var(--line);border-radius:3px;overflow:hidden;margin:16px 18px 18px}
+.boot-fill{display:block;height:100%;width:0;border-radius:3px;
+  background:linear-gradient(90deg,var(--iris),var(--violet));transition:width .2s linear}
+
+/* ---------- barra de progresso de rolagem ---------- */
+.scrollbar{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:transparent}
+.scrollbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--iris),var(--violet))}
+
+/* ---------- linha de digitação no hero ---------- */
+.typing{font-family:var(--mono);font-size:.85rem;color:var(--muted);margin-top:22px}
+.typing .p{color:var(--violet)}
+.typing b{color:var(--text);font-weight:500}
+
+/* ---------- marquee de stack ---------- */
+.marquee{
+  position:relative;overflow:hidden;padding:16px 0;
+  border-block:1px solid var(--line);background:var(--ink-2);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+}
+.mq-track{display:flex;width:max-content;animation:mq 32s linear infinite}
+.marquee:hover .mq-track{animation-play-state:paused}
+.mq-track span{
+  font-family:var(--mono);font-size:.8rem;color:var(--muted);
+  padding:0 26px;display:flex;align-items:center;gap:26px;white-space:nowrap;
+}
+.mq-track span::after{content:"◆";color:var(--violet);font-size:.6rem}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---------- spotlight nos cards ---------- */
+.work::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(168,123,255,.13),transparent 45%);
+  opacity:0;transition:opacity .35s ease;
+}
+.work:hover::after{opacity:1}
+.work-n{font-family:var(--mono);font-size:.7rem;color:var(--line);letter-spacing:.1em;transition:color .3s ease}
+.work:hover .work-n{color:var(--violet)}
+
+@media(prefers-reduced-motion:reduce){
+  .mq-track{animation:none}
+}
 
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
@@ -329,6 +441,17 @@ footer{border-top:1px solid var(--line);padding:30px 0;margin-top:40px}
 </head>
 <body>
 
+<!-- ==================== PRELOADER ==================== -->
+<div id="boot" role="status" aria-label="Carregando">
+  <div class="boot-term">
+    <div class="term-bar">
+      <i></i><i></i><i></i><span class="term-title">bash — victor@dev</span>
+    </div>
+    <div class="boot-body" id="bootBody"></div>
+    <div class="boot-bar"><b class="boot-fill" id="bootFill"></b></div>
+  </div>
+</div>
+
 <!-- ==================== NAV ==================== -->
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
@@ -343,6 +466,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;margin-top:40px}
     </nav>
     <button class="burger" id="burger" aria-expanded="false" aria-controls="menu">menu</button>
   </div>
+  <div class="scrollbar"><i id="prog"></i></div>
 </header>
 
 <!-- ==================== HERO ==================== -->
@@ -358,6 +482,8 @@ footer{border-top:1px solid var(--line);padding:30px 0;margin-top:40px}
         Desenvolvedor em João Pessoa. Construo <strong>sites, landing pages e aplicações mobile</strong> —
         do primeiro protótipo até o que entra no ar e é usado de verdade.
       </p>
+
+      <p class="typing"><span class="p">victor@dev:~$</span> construindo <b id="typed"></b><span class="blink"></span></p>
 
       <div class="cta-row">
         <a href="#projetos" class="btn btn-primary">Ver projetos →</a>
@@ -392,38 +518,108 @@ footer{border-top:1px solid var(--line);padding:30px 0;margin-top:40px}
   <div class="hero-line"></div>
 </section>
 
+<!-- ==================== MARQUEE ==================== -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track" id="mq"></div>
+</div>
+
 <!-- ==================== PROJETOS / CLIENTES ==================== -->
 <section id="projetos">
   <div class="wrap">
     <div class="sec-head rv">
       <span class="eyebrow">Trabalho para clientes</span>
       <h2 class="h2">O que já está <em>no ar.</em></h2>
-      <p class="lead">Sites e produtos digitais feitos para pessoas e negócios reais — do design à publicação.</p>
+      <p class="lead">Sites e landing pages para negócios reais de João Pessoa — do design à publicação, com foco em transformar visita em contato.</p>
     </div>
 
     <div class="work-grid">
-      <!-- EDITE: troque href pelos links finais de cada projeto -->
-      <a class="work rv" href="https://www.sheilaguedes.com.br" target="_blank" rel="noopener">
+      <a class="work rv" href="https://iegcolegioecurso.com.br" target="_blank" rel="noopener">
         <div>
-          <div class="work-top"><span class="work-kind">Editorial · Institucional</span></div>
+          <div class="work-top">
+            <span class="work-kind">Educação · Institucional</span>
+            <span class="work-n">01</span>
+          </div>
+          <h3>IEG Colégio e Curso</h3>
+          <p>Site institucional da escola de Educação Básica, com os projetos próprios em destaque e cada chamada levando pais e responsáveis direto ao WhatsApp da secretaria.</p>
+        </div>
+        <div class="work-foot">
+          <div class="tags"><span class="tag">HTML5</span><span class="tag">Tailwind</span><span class="tag">JavaScript</span></div>
+          <span class="go">iegcolegioecurso.com.br ↗</span>
+        </div>
+      </a>
+
+      <a class="work rv" href="https://sitesheilaguedes.vercel.app" target="_blank" rel="noopener">
+        <div>
+          <div class="work-top">
+            <span class="work-kind">Editorial · Escritora</span>
+            <span class="work-n">02</span>
+          </div>
           <h3>Sheila Guedes</h3>
           <p>Site da escritora em página única: catálogo de livros, crônicas e FAQ, com todo o conteúdo em arrays editáveis para atualizar sem mexer no layout.</p>
         </div>
         <div class="work-foot">
-          <div class="tags"><span class="tag">HTML5</span><span class="tag">Tailwind</span><span class="tag">JavaScript</span></div>
-          <span class="go">Visitar site ↗</span>
+          <div class="tags"><span class="tag">HTML5</span><span class="tag">Tailwind</span><span class="tag">Arrays JS</span></div>
+          <span class="go">Ver site ↗</span>
         </div>
       </a>
 
-      <a class="work rv" href="#" target="_blank" rel="noopener">
+      <a class="work rv" href="https://pilatesagata.vercel.app/" target="_blank" rel="noopener">
         <div>
-          <div class="work-top"><span class="work-kind">Educação · Landing page</span></div>
-          <h3>IEG Colégio e Curso</h3>
-          <p>Landing page responsiva da escola, construída para transformar visita em conversa: cada chamada leva pais e responsáveis direto ao WhatsApp da secretaria.</p>
+          <div class="work-top">
+            <span class="work-kind">Saúde · Landing page</span>
+            <span class="work-n">03</span>
+          </div>
+          <h3>Pilates e Fisioterapia Ágata Andrade</h3>
+          <p>Clínica de pilates e fisioterapia com oito serviços organizados em filtros por categoria e agendamento direto pelo WhatsApp.</p>
         </div>
         <div class="work-foot">
-          <div class="tags"><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span></div>
-          <span class="go">Visitar site ↗</span>
+          <div class="tags"><span class="tag">Mobile-first</span><span class="tag">Tailwind</span><span class="tag">Lucide</span></div>
+          <span class="go">Ver site ↗</span>
+        </div>
+      </a>
+
+      <a class="work rv" href="https://studiotherapie.vercel.app" target="_blank" rel="noopener">
+        <div>
+          <div class="work-top">
+            <span class="work-kind">Saúde · Landing page</span>
+            <span class="work-n">04</span>
+          </div>
+          <h3>Studio Therapie</h3>
+          <p>Studio de pilates contemporâneo e funcional. Direção visual de wellness — movimento e equilíbrio — sem a cara agressiva de academia nem a frieza de clínica.</p>
+        </div>
+        <div class="work-foot">
+          <div class="tags"><span class="tag">Mobile-first</span><span class="tag">Tailwind</span><span class="tag">Animações</span></div>
+          <span class="go">Ver site ↗</span>
+        </div>
+      </a>
+
+      <a class="work rv" href="https://layaraoliver.vercel.app" target="_blank" rel="noopener">
+        <div>
+          <div class="work-top">
+            <span class="work-kind">Beleza · Landing premium</span>
+            <span class="work-n">05</span>
+          </div>
+          <h3>Layara Oliver</h3>
+          <p>Sobrancelhas, dermopigmentação e remoção a laser em João Pessoa e Natal. Estética quiet luxury, pensada para receber tráfego do Instagram no celular.</p>
+        </div>
+        <div class="work-foot">
+          <div class="tags"><span class="tag">Editorial</span><span class="tag">Tailwind</span><span class="tag">Preloader</span></div>
+          <span class="go">Ver site ↗</span>
+        </div>
+      </a>
+
+      <a class="work rv" href="https://jeanesantana.vercel.app" target="_blank" rel="noopener">
+        <div>
+          <div class="work-top">
+            <span class="work-kind">Estética · Institucional</span>
+            <span class="work-n">06</span>
+          </div>
+          <h3>Jeane Santana Estética</h3>
+          <p>Clínica de estética e pós-operatório no Bessa. Site enxuto, com botão flutuante e a avaliação agendada em um toque pelo WhatsApp.</p>
+        </div>
+        <div class="work-foot">
+          <div class="tags"><span class="tag">HTML5</span><span class="tag">Tailwind</span><span class="tag">WhatsApp</span></div>
+          <span class="go">Ver site ↗</span>
         </div>
       </a>
 
@@ -564,11 +760,11 @@ footer{border-top:1px solid var(--line);padding:30px 0;margin-top:40px}
     <div class="about-grid">
       <div class="about-text rv">
         <p>Sou desenvolvedor, formado em Ciência da Computação pela UNIPÊ e cursando Administração na UFPB, em João Pessoa.</p>
-        <p>Trabalho com web e mobile: já entreguei sites institucionais e landing pages para clientes reais e desenvolvi um aplicativo de controle financeiro pessoal em React Native com Firebase.</p>
+        <p>Trabalho com web e mobile: já coloquei no ar sites e landing pages para escolas, clínicas, studios de pilates e uma escritora — e desenvolvi um aplicativo de controle financeiro pessoal em React Native com Firebase.</p>
         <p>O que me interessa é a ponte entre as duas formações: entender o negócio, validar a ideia com quem vai usar e só então construir. Prefiro entregar algo simples que funciona e cresce a algo grande que ninguém usa.</p>
 
         <div class="stats">
-          <div class="stat"><b>Web</b><span>sites e landing pages<br>para clientes</span></div>
+          <div class="stat"><b>6</b><span>sites publicados<br>para clientes</span></div>
           <div class="stat"><b>Mobile</b><span>React Native<br>e Firebase</span></div>
           <div class="stat"><b>Produto</b><span>da validação<br>à publicação</span></div>
         </div>
@@ -585,35 +781,45 @@ footer{border-top:1px solid var(--line);padding:30px 0;margin-top:40px}
 <!-- ==================== CONTATO ==================== -->
 <section id="contato">
   <div class="wrap">
-    <div class="sec-head rv">
+    <div class="contact-shell rv">
       <span class="eyebrow">Contato</span>
-      <h2 class="h2">Vamos <em>conversar.</em></h2>
-      <p class="lead">Aberto a projetos, freelas e oportunidades. Respondo mais rápido pelo WhatsApp.</p>
-    </div>
+      <h2 class="h2">Bora tirar sua ideia <em>do papel.</em></h2>
+      <p class="lead">Me conta o que você precisa — site, landing page ou app — que eu respondo com prazo e próximos passos. Pelo WhatsApp a resposta sai mais rápido.</p>
 
-    <div class="contact-grid">
-      <a class="ct rv" href="https://wa.me/5583987975760" target="_blank" rel="noopener">
-        <small>// resposta rápida</small>
-        <b>WhatsApp</b>
-      </a>
-      <a class="ct rv" href="mailto:victorgds009@gmail.com">
-        <small>// e-mail direto</small>
-        <b>victorgds009@gmail.com</b>
-      </a>
-      <a class="ct rv" href="https://www.linkedin.com/in/victor-fernandes-guedes-ba7782369" target="_blank" rel="noopener">
-        <small>// rede profissional</small>
-        <b>LinkedIn</b>
-      </a>
-      <a class="ct rv" href="https://github.com/vinteumsz" target="_blank" rel="noopener">
-        <small>// código</small>
-        <b>github.com/vinteumsz</b>
-      </a>
-    </div>
+      <a class="mail-big" href="mailto:victorgds009@gmail.com?subject=Projeto%20novo%20%E2%80%94%20contato%20pelo%20site">victorgds009@gmail.com</a>
 
-    <div class="copybar rv">
-      <span>// copiar e-mail</span>
-      <button class="copybtn" id="copy" data-email="victorgds009@gmail.com">victorgds009@gmail.com</button>
-      <span id="copied" hidden>copiado ✓</span>
+      <div class="contact-actions">
+        <a class="btn btn-wa" href="https://wa.me/5583987975760?text=Oi%20Victor!%20Vi%20seu%20portf%C3%B3lio%20e%20queria%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.23 8.23 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.53.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.41.09-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.16 0-.43.06-.65.31-.22.24-.85.83-.85 2.03s.87 2.35.99 2.51c.12.17 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29Z"/></svg>
+          Chamar no WhatsApp
+        </a>
+
+        <button class="btn btn-ghost" id="copy" data-email="victorgds009@gmail.com" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar e-mail
+        </button>
+
+        <span class="copied-tag" id="copied">e-mail copiado ✓</span>
+      </div>
+
+      <div class="socials">
+        <a class="social" href="https://www.linkedin.com/in/victor-fernandes-guedes-ba7782369" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13Zm1.78 13.02H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0Z"/></svg>
+          <span class="txt"><b>LinkedIn</b><span>Victor Fernandes Guedes</span></span>
+          <span class="arw">↗</span>
+        </a>
+
+        <a class="social" href="https://github.com/vinteumsz" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3Z"/></svg>
+          <span class="txt"><b>GitHub</b><span>github.com/vinteumsz</span></span>
+          <span class="arw">↗</span>
+        </a>
+
+        <div class="social" style="cursor:default">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span class="txt"><b>João Pessoa, PB</b><span>presencial ou remoto</span></span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -626,6 +832,94 @@ footer{border-top:1px solid var(--line);padding:30px 0;margin-top:40px}
 </footer>
 
 <script>
+const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---------- preloader: sequência de build ----------
+(function(){
+  const boot = document.getElementById('boot');
+  const body = document.getElementById('bootBody');
+  const fill = document.getElementById('bootFill');
+  document.body.classList.add('booting');
+
+  const encerrar = () => {
+    boot.classList.add('done');
+    document.body.classList.remove('booting');
+    setTimeout(() => boot.remove(), 600);
+  };
+
+  if (reduz) { encerrar(); return; }
+
+  const linhas = [
+    {t:'<span class="p">$</span> git clone victor/portfolio.git', d:260},
+    {t:'<span class="dim">Cloning into \'portfolio\'... done.</span>', d:220},
+    {t:'<span class="p">$</span> npm install', d:300},
+    {t:'<span class="dim">added 0 packages — zero dependências ✦</span>', d:240},
+    {t:'<span class="p">$</span> npm run dev', d:280},
+    {t:'<span class="ok">✓ pronto em 420ms — bem-vindo(a)</span>', d:420}
+  ];
+
+  let i = 0, t = 0;
+  linhas.forEach((l, idx) => {
+    t += l.d;
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'boot-line';
+      el.innerHTML = l.t;
+      body.appendChild(el);
+      fill.style.width = Math.round(((idx + 1) / linhas.length) * 100) + '%';
+    }, t);
+  });
+  setTimeout(encerrar, t + 380);
+  setTimeout(encerrar, 5000); // trava de segurança
+})();
+
+// ---------- linha que se digita no hero ----------
+(function(){
+  const alvo = document.getElementById('typed');
+  const palavras = ['sites que convertem','landing pages','apps em React Native','interfaces responsivas'];
+  if (reduz) { alvo.textContent = palavras[0]; return; }
+  let p = 0, c = 0, apagando = false;
+  (function tick(){
+    const atual = palavras[p];
+    alvo.textContent = apagando ? atual.slice(0, --c) : atual.slice(0, ++c);
+    let espera = apagando ? 34 : 62;
+    if (!apagando && c === atual.length) { apagando = true; espera = 1600; }
+    else if (apagando && c === 0) { apagando = false; p = (p + 1) % palavras.length; espera = 260; }
+    setTimeout(tick, espera);
+  })();
+})();
+
+// ---------- marquee de stack ----------
+(function(){
+  const itens = ['HTML5','CSS3','JavaScript','Tailwind','React Native','Firebase','Git','GitHub','Vercel','Mobile-first','UI Design','VS Code'];
+  const mq = document.getElementById('mq');
+  const bloco = itens.map(i => '<span>' + i + '</span>').join('');
+  mq.innerHTML = bloco + bloco; // duplicado para o loop ficar contínuo
+})();
+
+// ---------- barra de progresso de rolagem ----------
+(function(){
+  const prog = document.getElementById('prog');
+  const atualizar = () => {
+    const max = document.body.scrollHeight - innerHeight;
+    prog.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + '%';
+  };
+  addEventListener('scroll', atualizar, {passive:true});
+  addEventListener('resize', atualizar);
+  atualizar();
+})();
+
+// ---------- spotlight que segue o mouse nos cards ----------
+if (!reduz && matchMedia('(hover:hover)').matches) {
+  document.querySelectorAll('.work').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+}
+
 // ano no rodapé
 document.getElementById('ano').textContent = new Date().getFullYear();
 
@@ -670,12 +964,12 @@ secs.forEach(s => spy.observe(s));
 
 // copiar e-mail
 const copy = document.getElementById('copy');
+const ok = document.getElementById('copied');
 copy.addEventListener('click', async () => {
   try {
     await navigator.clipboard.writeText(copy.dataset.email);
-    const ok = document.getElementById('copied');
-    ok.hidden = false;
-    setTimeout(() => ok.hidden = true, 2000);
+    ok.classList.add('on');
+    setTimeout(() => ok.classList.remove('on'), 2200);
   } catch { location.href = 'mailto:' + copy.dataset.email; }
 });
 </script>
