@@ -402,6 +402,49 @@ body.booting{overflow:hidden}
   .mq-track{animation:none}
 }
 
+/* ---------- prévia dos sites no hover ---------- */
+#peek{
+  position:fixed;top:0;left:0;z-index:80;width:360px;pointer-events:none;
+  opacity:0;visibility:hidden;
+  transform:translate3d(-9999px,-9999px,0) scale(.94);
+  transition:opacity .2s ease,visibility .2s ease,scale .2s cubic-bezier(.2,.7,.2,1);
+}
+#peek.on{opacity:1;visibility:visible;scale:1}
+.peek-card{
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  background:var(--ink-2);box-shadow:0 34px 70px -34px #000, 0 0 0 1px rgba(168,123,255,.16);
+}
+.peek-bar{
+  display:flex;align-items:center;gap:6px;padding:9px 11px;
+  border-bottom:1px solid var(--line);background:var(--ink-3);
+  font-family:var(--mono);font-size:.66rem;color:var(--muted);
+}
+.peek-bar i{width:7px;height:7px;border-radius:50%;background:var(--line);flex:none}
+.peek-bar i:first-child{background:#463A66}
+.peek-url{margin-left:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.peek-stage{position:relative;width:100%;height:232px;overflow:hidden;background:var(--ink)}
+.peek-stage iframe{
+  position:absolute;top:0;left:0;width:1280px;height:825px;border:0;
+  transform:scale(.28125);transform-origin:top left;
+}
+.peek-load{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:.7rem;color:var(--muted);
+  background:var(--ink-2);overflow:hidden;
+}
+.peek-load::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(168,123,255,.13),transparent);
+  transform:translateX(-100%);animation:shine 1.3s linear infinite;
+}
+@keyframes shine{to{transform:translateX(100%)}}
+.peek-hint{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:8px 11px;border-top:1px solid var(--line);background:var(--ink-3);
+  font-family:var(--mono);font-size:.64rem;color:var(--muted);
+}
+.peek-hint b{color:var(--violet);font-weight:500}
+
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
@@ -824,6 +867,17 @@ body.booting{overflow:hidden}
   </div>
 </section>
 
+<!-- ==================== PRÉVIA FLUTUANTE ==================== -->
+<div id="peek" aria-hidden="true">
+  <div class="peek-card">
+    <div class="peek-bar"><i></i><i></i><i></i><span class="peek-url" id="peekUrl"></span></div>
+    <div class="peek-stage" id="peekStage">
+      <div class="peek-load" id="peekLoad">carregando prévia…</div>
+    </div>
+    <div class="peek-hint">prévia ao vivo <b>clique para abrir ↗</b></div>
+  </div>
+</div>
+
 <footer>
   <div class="wrap foot-inner">
     <span>© <span id="ano"></span> Victor Fernandes</span>
@@ -919,6 +973,70 @@ if (!reduz && matchMedia('(hover:hover)').matches) {
     });
   });
 }
+
+// ---------- prévia ao vivo dos sites no hover ----------
+(function(){
+  if (!matchMedia('(hover:hover)').matches || innerWidth < 1000) return;
+
+  const peek  = document.getElementById('peek');
+  const stage = document.getElementById('peekStage');
+  const load  = document.getElementById('peekLoad');
+  const urlEl = document.getElementById('peekUrl');
+  const cache = new Map();   // url -> iframe já carregado
+  let atual = null;
+
+  const posicionar = (e) => {
+    const w = peek.offsetWidth, h = peek.offsetHeight;
+    let x = e.clientX + 26;
+    let y = e.clientY - h / 2;
+    if (x + w > innerWidth - 16) x = e.clientX - w - 26;
+    y = Math.max(16, Math.min(y, innerHeight - h - 16));
+    peek.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
+  };
+
+  document.querySelectorAll('.work[href^="http"]').forEach(card => {
+    const url = card.getAttribute('href');
+
+    card.addEventListener('mouseenter', e => {
+      atual = url;
+      urlEl.textContent = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+      posicionar(e);
+      peek.classList.add('on');
+
+      let frame = cache.get(url);
+      if (!frame) {
+        load.textContent = 'carregando prévia…';
+        load.style.display = 'flex';
+        frame = document.createElement('iframe');
+        frame.setAttribute('loading', 'lazy');
+        frame.setAttribute('scrolling', 'no');
+        frame.setAttribute('tabindex', '-1');
+        frame.setAttribute('title', 'Prévia de ' + url);
+        frame.src = url;
+        const falhou = setTimeout(() => {
+          if (atual === url) load.textContent = 'prévia indisponível — clique para abrir';
+        }, 6000);
+        frame.addEventListener('load', () => {
+          clearTimeout(falhou);
+          if (atual === url) load.style.display = 'none';
+          frame.dataset.pronto = '1';
+        });
+        cache.set(url, frame);
+        stage.appendChild(frame);
+      } else {
+        load.style.display = frame.dataset.pronto ? 'none' : 'flex';
+      }
+
+      cache.forEach((f, u) => { f.style.display = (u === url) ? 'block' : 'none'; });
+    });
+
+    card.addEventListener('mousemove', posicionar);
+    card.addEventListener('mouseleave', () => {
+      atual = null;
+      peek.classList.remove('on');
+    });
+  });
+})();
 
 // ano no rodapé
 document.getElementById('ano').textContent = new Date().getFullYear();
