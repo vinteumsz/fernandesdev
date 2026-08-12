@@ -542,27 +542,86 @@ body.booting{overflow:hidden}
 .soon p{color:var(--muted);font-size:.9rem;margin-top:4px}
 .soon .work-status{align-self:center}
 
-@media(max-width:960px){
-  .showroom{grid-template-columns:1fr;gap:20px}
-  .clients{
-    flex-direction:row;overflow-x:auto;border-top:0;border-bottom:1px solid var(--line);
-    scrollbar-width:none;-webkit-overflow-scrolling:touch;
-  }
-  .clients::-webkit-scrollbar{display:none}
-  .client{
-    flex:none;border-bottom:0;padding:12px 16px;white-space:nowrap;
-  }
-  .client::before{top:auto;bottom:0;left:0;right:0;width:auto;height:2px;transform:scaleX(0);transform-origin:left}
-  .client[aria-selected="true"]::before{transform:scaleX(1)}
-  .client-name{font-size:.95rem}
-  .stage{height:400px}
-  .brief{grid-template-columns:1fr}
-  .brief-meta{text-align:left;white-space:normal}
-  .addr{font-size:.66rem}
-  .open-live span{display:none}
+/* ===== carrossel mobile: um celular por cliente ===== */
+.mshow{display:none}
+.mrail{
+  display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+  overscroll-behavior-x:contain;align-items:flex-start;
+  padding:4px 0 18px;margin-inline:-24px;padding-inline:24px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
 }
-@media(max-width:600px){
-  .stage{height:330px}
+.mrail::-webkit-scrollbar{display:none}
+.mslide{
+  flex:0 0 min(78vw,320px);scroll-snap-align:center;
+  display:flex;flex-direction:column;gap:14px;
+}
+.mhead{display:flex;flex-direction:column;gap:3px}
+.mhead .k{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--violet)}
+.mhead h3{font-family:var(--display);font-size:1.3rem;font-weight:600;letter-spacing:-.02em;line-height:1.15}
+
+/* moldura de celular */
+.phone{
+  position:relative;width:100%;aspect-ratio:320/620;
+  border-radius:30px;padding:9px;
+  background:linear-gradient(160deg,var(--ink-3),var(--ink-2));
+  border:1px solid var(--line);
+  box-shadow:0 26px 50px -28px #000, inset 0 1px 0 rgba(181,123,255,.16);
+}
+.phone::before{
+  content:"";position:absolute;top:15px;left:50%;transform:translateX(-50%);
+  width:64px;height:5px;border-radius:99px;background:var(--ink);z-index:3;
+}
+.phone-screen{
+  position:relative;width:100%;height:100%;border-radius:22px;overflow:hidden;background:var(--ink-2);
+}
+.phone-screen iframe{
+  position:absolute;top:0;left:0;width:390px;border:0;transform-origin:top left;background:#fff;
+  transition:opacity .35s var(--ease);
+}
+.phone-screen.loading iframe{opacity:0}
+.phone-skel{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--mono);font-size:.7rem;color:var(--muted);background:var(--ink-2);
+  opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility .3s var(--ease);
+}
+.phone-screen.loading .phone-skel{opacity:1;visibility:visible}
+.phone-skel::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(181,123,255,.14),transparent);
+  transform:translateX(-100%);animation:shine 1.4s linear infinite;
+}
+.mslide p{
+  color:var(--muted);font-size:.9rem;line-height:1.6;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  min-height:calc(1.6em * 3);
+}
+.mslide .tags{min-height:52px;align-content:flex-start}
+.mslide{margin-bottom:2px}
+.mslide .btn{width:100%;justify-content:center}
+
+.mnav{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:10px}
+.mhint{
+  display:flex;align-items:center;gap:7px;margin-top:14px;
+  font-family:var(--mono);font-size:.7rem;color:var(--muted);
+  transition:opacity .4s var(--ease);
+}
+.mhint.off{opacity:0}
+.mhint svg{width:14px;height:14px;color:var(--violet);animation:nudge 1.9s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.mcount{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.mcount b{color:var(--violet);font-weight:500}
+.mdots{display:flex;gap:6px}
+.mdots i{
+  width:6px;height:6px;border-radius:50%;background:var(--line);display:block;
+  cursor:pointer;transition:background var(--med) var(--ease),width var(--med) var(--ease);
+}
+.mdots i.on{background:var(--violet);width:18px;border-radius:99px}
+
+@media(max-width:960px){
+  .showroom{display:none}
+  .mshow{display:block}
+  .soon{flex-direction:column;align-items:stretch;text-align:left}
+  .soon .btn{width:100%;justify-content:center}
 }
 
 /* ---------- reveal ---------- */
@@ -694,7 +753,7 @@ body.booting{overflow:hidden}
     <div class="sec-head rv">
       <span class="eyebrow">Trabalho para clientes</span>
       <h2 class="h2">Sete sites, <em>rodando aqui dentro.</em></h2>
-      <p class="lead">Não são prints: é o site ao vivo, dentro de um navegador de verdade. Escolha um cliente e veja como ficou no computador e no celular.</p>
+      <p class="lead">Não são prints: é o site ao vivo, carregado de verdade. Escolha um cliente e navegue.</p>
     </div>
 
     <div class="showroom rv">
@@ -737,14 +796,28 @@ body.booting{overflow:hidden}
           <div class="brief-meta" id="briefMeta"></div>
         </div>
 
-        <div class="soon">
-          <div>
-            <h3>O próximo pode ser <em style="font-style:italic;color:var(--violet)">o seu.</em></h3>
-            <p>Me conta o que seu negócio precisa mostrar — eu devolvo com prazo e proposta.</p>
-          </div>
-          <a href="#contato" class="btn btn-primary">Falar comigo →</a>
-        </div>
       </div>
+    </div>
+
+    <!-- ===== versão mobile: carrossel de celulares ===== -->
+    <div class="mshow rv" id="mshow">
+      <div class="mrail" id="mrail"></div>
+      <div class="mnav">
+        <span class="mcount" id="mcount"></span>
+        <span class="mdots" id="mdots"></span>
+      </div>
+      <p class="mhint" id="mhint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        arraste para ver os outros sites
+      </p>
+    </div>
+
+    <div class="soon rv">
+      <div>
+        <h3>O próximo pode ser <em>o seu.</em></h3>
+        <p>Me conta o que seu negócio precisa mostrar — eu devolvo com prazo e proposta.</p>
+      </div>
+      <a href="#contato" class="btn btn-primary">Falar comigo →</a>
     </div>
   </div>
 </section>
@@ -1041,6 +1114,103 @@ const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
     }
   ];
 
+  const MOBILE = matchMedia('(max-width:960px)');
+
+  // ---------------- versão mobile: um celular por cliente ----------------
+  function montarMobile(){
+    const rail  = document.getElementById('mrail');
+    const dots  = document.getElementById('mdots');
+    const count = document.getElementById('mcount');
+    if (!rail || rail.dataset.pronto) return;
+    rail.dataset.pronto = '1';
+
+    PROJETOS.forEach((pr, i) => {
+      const slide = document.createElement('article');
+      slide.className = 'mslide';
+      slide.innerHTML =
+        '<div class="mhead"><span class="k">' + pr.tipo + '</span><h3>' + pr.nome + '</h3></div>' +
+        '<div class="phone"><div class="phone-screen loading">' +
+          '<div class="phone-skel">carregando…</div>' +
+        '</div></div>' +
+        '<p>' + pr.texto + '</p>' +
+        '<div class="tags">' + pr.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>' +
+        '<a class="btn btn-primary" href="' + pr.url + '" target="_blank" rel="noopener">abrir site ↗</a>';
+      rail.appendChild(slide);
+
+      const ponto = document.createElement('i');
+      if (i === 0) ponto.classList.add('on');
+      ponto.addEventListener('click', () => {
+        rail.children[i].scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+      });
+      dots.appendChild(ponto);
+    });
+
+    const slides = [...rail.children];
+
+    // a dica cumpre seu papel e sai de cena
+    const dica = document.getElementById('mhint');
+    rail.addEventListener('scroll', () => dica.classList.add('off'), {once:true, passive:true});
+    setTimeout(() => dica.classList.add('off'), 9000);
+    const atualizar = (i) => {
+      count.innerHTML = '<b>' + String(i + 1).padStart(2,'0') + '</b> / ' + String(PROJETOS.length).padStart(2,'0');
+      [...dots.children].forEach((d, n) => d.classList.toggle('on', n === i));
+    };
+    atualizar(0);
+
+    // encaixa o site na moldura
+    const escalar = (tela, frame) => {
+      const s = tela.clientWidth / 390;
+      frame.style.transform = 'scale(' + s + ')';
+      frame.style.height = Math.ceil(tela.clientHeight / s) + 'px';
+    };
+
+    // só carrega o celular que chega perto da tela
+    const carregar = new IntersectionObserver((ents) => {
+      ents.forEach(e => {
+        if (!e.isIntersecting) return;
+        const i = slides.indexOf(e.target);
+        const tela = e.target.querySelector('.phone-screen');
+        if (tela.dataset.carregado) return;
+        tela.dataset.carregado = '1';
+
+        const frame = document.createElement('iframe');
+        frame.src = PROJETOS[i].url;
+        frame.title = 'Prévia — ' + PROJETOS[i].nome;
+        frame.loading = 'lazy';
+        frame.setAttribute('scrolling','no');
+        frame.setAttribute('tabindex','-1');
+        frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-popups');
+        const falhou = setTimeout(() => {
+          tela.querySelector('.phone-skel').textContent = 'prévia indisponível — toque em abrir';
+        }, 9000);
+        frame.addEventListener('load', () => {
+          clearTimeout(falhou);
+          escalar(tela, frame);
+          tela.classList.remove('loading');
+        });
+        tela.appendChild(frame);
+        escalar(tela, frame);
+      });
+    }, {root: rail, rootMargin: '120px'});
+    slides.forEach(s => carregar.observe(s));
+
+    // qual está centralizado
+    const ativo = new IntersectionObserver((ents) => {
+      ents.forEach(e => { if (e.intersectionRatio > .6) atualizar(slides.indexOf(e.target)); });
+    }, {root: rail, threshold: [.61]});
+    slides.forEach(s => ativo.observe(s));
+
+    addEventListener('resize', () => {
+      slides.forEach(s => {
+        const tela = s.querySelector('.phone-screen');
+        const frame = tela.querySelector('iframe');
+        if (frame) escalar(tela, frame);
+      });
+    }, {passive:true});
+  }
+
+  // ---------------- versão desktop: navegador ----------------
+  function montarDesktop(){
   const lista   = document.getElementById('clients');
   const stage   = document.getElementById('stage');
   const addrTxt = document.getElementById('addrTxt');
@@ -1048,7 +1218,8 @@ const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const texto   = document.getElementById('briefText');
   const tags    = document.getElementById('briefTags');
   const meta    = document.getElementById('briefMeta');
-  if (!lista) return;
+  if (!lista || lista.dataset.pronto) return;
+  lista.dataset.pronto = '1';
 
   const LARG = {desk: 1440, mob: 420};
   let atual = 0, modo = 'desk';
@@ -1161,7 +1332,14 @@ const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
   texto.textContent = pr0.texto;
   tags.innerHTML = pr0.tags.map(t => '<span class="tag">' + t + '</span>').join('');
   meta.innerHTML = pr0.meta.map(m => '<div><b>' + m + '</b></div>').join('');
+  }
+
+  // monta só o que está visível; se girar o aparelho, monta o outro
+  const decidir = () => MOBILE.matches ? montarMobile() : montarDesktop();
+  decidir();
+  MOBILE.addEventListener('change', decidir);
 })();
+
 
 // ano no rodapé
 document.getElementById('ano').textContent = new Date().getFullYear();
