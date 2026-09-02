@@ -270,6 +270,7 @@ section{padding:96px 0;position:relative}
   transition:transform .28s ease,border-color .28s ease;
 }
 .lab:hover{transform:translateY(-4px);border-color:rgba(138,91,255,.5)}
+a.lab:hover h3{color:var(--violet-soft)}
 .lab-n{font-family:var(--mono);font-size:.72rem;color:var(--iris);letter-spacing:.12em}
 .lab h3{font-family:var(--display);font-size:1.4rem;font-weight:600;letter-spacing:-.02em}
 .lab p{color:var(--muted);font-size:.93rem;flex:1}
@@ -709,7 +710,7 @@ body.booting{overflow:hidden}
 
       <p class="lead">
         Desenvolvedor em João Pessoa. Faço <strong>sites, landing pages e apps</strong> para negócios
-        que precisam ser encontrados e contatados. Sete já estão no ar — e você pode navegar por eles aqui mesmo.
+        que precisam ser encontrados e contatados. Nove já estão no ar — e você pode navegar por eles aqui mesmo.
       </p>
 
       <p class="typing"><span class="p">victor@dev:~$</span> construindo <b id="typed"></b><span class="blink"></span></p>
@@ -752,8 +753,8 @@ body.booting{overflow:hidden}
   <div class="wrap">
     <div class="sec-head rv">
       <span class="eyebrow">Trabalho para clientes</span>
-      <h2 class="h2">Sete sites, <em>rodando aqui dentro.</em></h2>
-      <p class="lead">Não são prints: é o site ao vivo, carregado de verdade. Escolha um cliente e navegue.</p>
+      <h2 class="h2">Nove sites, <em>rodando aqui dentro.</em></h2>
+      <p class="lead">Não são prints: é o site ao vivo, carregado de verdade. Saúde, educação, contabilidade, seguros — escolha um cliente e navegue.</p>
     </div>
 
     <div class="showroom rv">
@@ -832,16 +833,24 @@ body.booting{overflow:hidden}
     </div>
 
     <div class="lab-grid">
-      <div class="lab rv">
-        <span class="lab-n">MOBILE · TCC 2023</span>
+      <a class="lab rv" href="https://moneyes-ca2d9.web.app" target="_blank" rel="noopener">
+        <span class="lab-n">PRODUTO · EM USO</span>
         <h3>MoneyEyes</h3>
-        <p>Aplicativo de controle financeiro pessoal: registro de despesas e receitas, análise dos gastos e criação de orçamentos, pensado para a realidade brasileira.</p>
-        <div class="metric">React Native + Firebase<br>Testes de eficácia e segurança</div>
-        <div class="tags"><span class="tag">React Native</span><span class="tag">Firebase</span><span class="tag">UI</span></div>
+        <p>Controle financeiro pessoal que nasceu como TCC em React Native e virou aplicação web que eu uso de verdade: despesas, orçamentos e comparativo entre meses.</p>
+        <div class="metric">Firebase próprio, Firestore em São Paulo<br>Publicado no Firebase Hosting</div>
+        <div class="tags"><span class="tag">Web</span><span class="tag">Firebase</span><span class="tag">Firestore</span></div>
+      </a>
+
+      <div class="lab rv">
+        <span class="lab-n">CONCEITO · ESTÚDIO</span>
+        <h3>Estúdio de tatuagem</h3>
+        <p>Projeto autoral de um estúdio com foco em anime, com as artes dos flashes geradas por IA. Serviu de laboratório para fundo animado, navbar e formas de expor um catálogo sem cair na grade de cards.</p>
+        <div class="metric">Arte gerada e tratada no Canva<br>Arquivo único, publicado na Vercel</div>
+        <div class="tags"><span class="tag">HTML5</span><span class="tag">Animações</span><span class="tag">Canva</span></div>
       </div>
 
       <div class="lab rv">
-        <span class="lab-n">WEB · PESSOAL</span>
+        <span class="lab-n">WEB · ESTE SITE</span>
         <h3>Este portfólio</h3>
         <p>Site em arquivo único, sem framework e sem build: HTML, CSS e JavaScript puros, com animações de entrada, menu responsivo e navegação ativa por seção.</p>
         <div class="metric">Um arquivo · zero dependências<br>Publicado no GitHub Pages</div>
@@ -937,11 +946,11 @@ body.booting{overflow:hidden}
     <div class="about-grid">
       <div class="about-text rv">
         <p>Sou desenvolvedor, formado em Ciência da Computação pela UNIPÊ e cursando Administração na UFPB, em João Pessoa.</p>
-        <p>Trabalho com web e mobile: já coloquei no ar sites e landing pages para escolas, clínicas, studios de pilates e uma escritora — e desenvolvi um aplicativo de controle financeiro pessoal em React Native com Firebase.</p>
+        <p>Trabalho com web e mobile: já coloquei no ar sites e landing pages para escolas, clínicas, estúdios de pilates, escritórios de contabilidade, uma corretora de seguros e uma escritora — e mantenho um aplicativo de controle financeiro que eu mesmo uso.</p>
         <p>O que me interessa é a ponte entre as duas formações: entender o negócio, validar a ideia com quem vai usar e só então construir. Prefiro entregar algo simples que funciona e cresce a algo grande que ninguém usa.</p>
 
         <div class="stats">
-          <div class="stat"><b>7</b><span>sites publicados<br>para clientes</span></div>
+          <div class="stat"><b>9</b><span>sites publicados<br>para clientes</span></div>
           <div class="stat"><b>Mobile</b><span>React Native<br>e Firebase</span></div>
           <div class="stat"><b>Produto</b><span>da validação<br>à publicação</span></div>
         </div>
@@ -1077,12 +1086,6 @@ const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
       meta:['Educação Básica','iegcolegioecurso.com.br']
     },
     {
-      nome:'Sheila Guedes', tipo:'Escritora', url:'https://sitesheilaguedes.vercel.app',
-      texto:'Site da escritora paraibana em página única: catálogo de livros, crônicas e FAQ. Todo o conteúdo vive em arrays de JavaScript, então a autora publica um livro novo sem encostar no layout.',
-      tags:['HTML5','Tailwind','Conteúdo em arrays'],
-      meta:['Editorial literário','Pronto para CMS']
-    },
-    {
       nome:'Ágata Andrade', tipo:'Pilates e fisioterapia', url:'https://pilatesagata.vercel.app',
       texto:'Clínica no Cristo Redentor com oito serviços — de pilates a osteopatia. Organizei tudo em filtros por categoria para quem chega procurando uma coisa específica achar em um toque, e agendar pelo WhatsApp no seguinte.',
       tags:['Mobile-first','Tailwind','Filtros','Lucide'],
@@ -1095,12 +1098,6 @@ const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
       meta:['Wellness studio','5,0 no Google']
     },
     {
-      nome:'Layara Oliver', tipo:'Dermopigmentação', url:'https://layaraoliver.vercel.app',
-      texto:'Sobrancelhas, dermopigmentação e remoção a laser, com atendimento em João Pessoa e Natal. Estética quiet luxury, construída para receber tráfego do Instagram — o celular aqui não é adaptação, é o projeto.',
-      tags:['Editorial','Tailwind','Preloader','Mobile-first'],
-      meta:['12 anos de atuação','Tráfego do Instagram']
-    },
-    {
       nome:'Jeane Santana', tipo:'Estética', url:'https://jeanesantana.vercel.app',
       texto:'Estética e pós-operatório no Jardim Oceania. Depois de um corte de gordura pedido pela cliente, o site ficou enxuto: procedimentos em cards compactos e a avaliação agendada em um toque pelo botão flutuante.',
       tags:['HTML5','Tailwind','WhatsApp'],
@@ -1111,6 +1108,30 @@ const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
       texto:'Estúdio no Cabo Branco. Turquesa da marca, movimento consciente e uma promessa clara logo na abertura: corpo forte, flexível e sem dor.',
       tags:['Mobile-first','Tailwind','Lucide'],
       meta:['Cabo Branco','5,0 no Google']
+    },
+    {
+      nome:'Tambaú Seguros', tipo:'Corretora de seguros', url:'https://tambauseguros.com.br',
+      texto:'Corretora com mais de 35 anos em João Pessoa. Cinco ramos de seguro, as doze seguradoras parceiras com as logos vetorizadas à mão em SVG, os telefones de assistência 24h reunidos num só lugar e um formulário que qualifica o lead antes de mandar para o WhatsApp.',
+      tags:['Insurance tech','12 logos em SVG','Captação de lead'],
+      meta:['+35 anos de mercado','tambauseguros.com.br']
+    },
+    {
+      nome:'Porto Seguro Consórcios', tipo:'Consórcio', url:'https://melhorconsorcioportoseguro.com.br',
+      texto:'Consórcio Porto Seguro vendido pela Tambaú: imóveis, automóveis e pesados. O eixo não é "sem juros", é planejamento — sonho, plano, conquista. Traz simulador que qualifica o lead, ilustração orbital animada no topo e regras de compliance respeitadas linha a linha.',
+      tags:['Simulador','Compliance','Ilustração animada'],
+      meta:['Marca Porto Seguro','Domínio próprio']
+    },
+    {
+      nome:'Alliance Contabilidade', tipo:'Contabilidade', url:'https://alliancecontabilidade.vercel.app',
+      texto:'Escritório de contabilidade em Mangabeira, com 23 anos de estrada e mais de 900 clientes no país. Visual corporativo limpo em cima do azul da marca, com serviços, prova social real e as marcas atendidas em destaque.',
+      tags:['Corporativo','Prova social','WhatsApp'],
+      meta:['23 anos, +900 clientes','5,0 no Google']
+    },
+    {
+      nome:'Espaço Thaís Holanda', tipo:'Fisioterapia e pilates', url:'https://thaisholanda.vercel.app',
+      texto:'Clínica em Campina Grande. O projeto mais trabalhado da lista: serviços em bento grid, números que contam sozinhos, marquee das avaliações, sistema de ícones SVG próprio (sem depender de CDN) e um loading em que a logo respira.',
+      tags:['Bento grid','SVG próprio','Microinterações'],
+      meta:['+10 anos de atuação','5,0 com 83 avaliações']
     }
   ];
 
